@@ -1,2 +1,2 @@
 # nodejs-camp
-Node.js，Video Demo, Notes, Practices
+Node.js，Notes, Examples, Practices
