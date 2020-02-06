@@ -1,10 +1,14 @@
-const https = require('https');
+/**
+ * 一个简单的爬取网页页面的程序Demo
+ */
+const http = require('http');
 const fs = require('fs');
 
-let url = 'https://www.infoq.cn/';
+// let url = 'https://news.qq.com/zt2020/page/feiyan.htm?from=timeline&isappinstalled=0';
 // let url = 'https://nodejs.org/dist/index.json';
+let url = 'http://www.baidu.com/';
 
-https.get(url, (res) => {
+http.get(url, (res) => {
 
     const { statusCode } = res;
     const contentType = res.headers['content-type'];
@@ -25,7 +29,7 @@ https.get(url, (res) => {
         return;
     }
 
-    res.setEncoding('utf8');
+    res.setEncoding('utf-8');
 
     let rawData = '';
 
