@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>交流区</h1>
+    <div id="content" name="name" style="overflow-y: scroll;width: 400px;height: 300px;border: solid 1px #000;"></div>
+    <br />
+    <div>
+        <input type="text" id="msg" style="width: 200px;" />
+        <button id="submit">提交</button>
+    </div>
+    <script src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <script>
+        // 连接服务器
+        const socket = io.connect("http://127.0.0.1:3050");
+
+        const content = document.getElementById("content");
+        document.querySelector("#submit").addEventListener("click", () => {
+            const message = msg.value;
+            socket.emit("chat-message", message);
+            msg.value = "";
+            content.innerHTML += "宝宝说：" + message + "<br/>";
+        }, false);
+
+        socket.on("message", msg => {
+            content.innerHTML += msg + "<hr/>";
+        });
+
+        // 接收服务端消息
+        // 监听自定义事件
+        // socket.on('message-event', msg => {
+        //     console.log(`>>>>>>>>>>>>>> socket.io >>>>>>>>>>> ${msg}`);
+        // });
+
+        // socket.emit('received-event', '你好，大侠~');
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="main">
+        <input type="text" id="toInput">
+        <button onclick="sendMsgToServer()">send to server</button>
+    </div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:3050');
+        
+        ws.onopen = () => {
+            console.log(`服务已连接`);
+        };
+
+        ws.onmessage = (msg) => {
+            console.log('来自服务器端的数据：', msg);
+            alert(`来自服务器端的数据：${msg.data}`);
+        };
+
+        ws.onclose = () => {
+            console.log(`服务器已断开连接`);
+        };
+
+        const sendMsgToServer = () => {
+            let msg = document.getElementById('toInput').value;
+            ws.send(msg);
+        };
+
+    </script>
+
+</body>
+</html>
