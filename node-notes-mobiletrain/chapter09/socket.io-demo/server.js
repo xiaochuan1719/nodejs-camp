@@ -18,18 +18,10 @@ io.on('connection', socket => {
     // 触发 message-event 自定义事件
     // socket.emit('message-event', `欢迎光临`);
 
-    let robotMsg = {
-        '爱': '爱❤静静~',
-        '静静': '爱❤静静~',
-        '漂亮': '爱❤静静，好看的静静~',
-        '想': '爱❤静静，想❤静静~',
-        '美的': '宝宝美美的'
-    };
-
     socket.on('chat-message', msg => {
         console.log(`宝宝说：${msg}`);
         let returnMsg = '', namePrefix = '锅锅说：';
-        returnMsg = namePrefix + robotMsg[msg];
+        returnMsg = `${namePrefix}❤爱你哟宝宝，你最好看❤`;
         socket.emit('message', returnMsg);
     });
 
