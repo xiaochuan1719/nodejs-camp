@@ -38,7 +38,7 @@ app.post('/user/login', (req, res) => {
     let { username, password } = req.body;
     if (username === 'loonger' && password === '123456') {
         req.session.username = 'loonger';
-        res.cookie('islogin', 'true', { maxAge: 1000 * 60 * 3 });
+        res.cookie('islogin', true, { maxAge: 1000 * 60 * 3 });
         res.send({ err: 0, msg: 'login ok' });
     } else {
         res.send({ err: -1, msg: 'username and password not ok' });
