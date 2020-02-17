@@ -2,6 +2,9 @@ const express = require('express')
 
 const app = express()
 
+// 实际项目放这里是不太合理的，应该存放在某个环境变量里面
+app.set('secret', 'i2w123dff32jdi')
+
 app.use(require('cors')())
 app.use(express.json())
 // app.use(express.urlencoded())
