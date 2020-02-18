@@ -14,9 +14,17 @@
 
 ## 服务器登录校验
 
-    
+### 1. 中间件拦截    
 
 ## 客户端路由控制 （beforeEach, meta）
+
+### 2. 如果页面不存在接口请求，没有登录的情况下不会跳转到登录页
+
+- 路由元信息配置 `meta`
+
+- 导航守卫 `router.beforeEach(to, from, next)`
+
+## 上传文件的登录校验 （el-upload, headers）
 
 
 

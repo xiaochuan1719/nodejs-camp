@@ -48,17 +48,7 @@ module.exports = app => {
   /**
    * 资源列表
    */
-  router.get("/", async (req, res, next) => {
-    // 中间件 校验用户是否登录
-    const token = String(req.headers.authorization || '').split(' ').pop()
-    assert(token, 401, 'jwt token 已失效')
-    const { _id } = jwt.verify(token, app.get('secret'))
-    assert(id, 401, '无效的 jwt token')
-    // 挂在到 req 上，以便后续可以使用该数据
-    req.admin = await Admins.findById(_id)
-    assert(req.admin, 401, '请先登录')
-    await next()
-  }, async (req, res) => {
+  router.get("/", async (req, res) => {
     // populate()  关联取出相关字段
     const queryOptions = {}
     if (req.Model.modelName === 'Categories') {
@@ -77,13 +67,18 @@ module.exports = app => {
     res.send(model)
   })
 
-  // 新增中间件处理通用 Model
-  app.use("/admin/api/rest/:resource", (req, res, next) => {
+  // 登录校验中间件
+  const authMiddleware = require('../../middleware/auth')
+
+  const resouceMiddleware = async (req, res, next) => {
     // inflection.singularize() 单词的复数转单数
     const modelName = require("inflection").singularize(req.params.resource)
     req.Model = require(`../../models/${modelName}.model`)
     next()
-  }, router)
+  }
+
+  // 新增中间件处理通用 Model
+  app.use("/admin/api/rest/:resource", authMiddleware(), resouceMiddleware, router)
 
   // 文件上传
   const multer = require('multer')
@@ -91,7 +86,7 @@ module.exports = app => {
       dest: __dirname + '/../../uploads'
   })
   // 接收的表单字段名：file  formData里面的字段
-  app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+  app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
     const file = req.file
     file.url = `http://127.0.0.1:3050/uploads/${file.filename}`
     res.send(file)
